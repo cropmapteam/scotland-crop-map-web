@@ -28,7 +28,7 @@ This version is trying to reproduce the same thing with [OpenLayer 5](https://op
 
 You should be able to start the app by installing NPM and running:
 
-```
+```ssh
 cd web
 npm install
 npm start

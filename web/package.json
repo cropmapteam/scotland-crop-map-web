@@ -6,7 +6,10 @@
   "dependencies": {
     "ol": "^5.3.3",
     "ol-layerswitcher": "^3.3.0",
-    "parcel-bundler": "^1.12.3"
+    "parcel-bundler": "^1.12.3",
+    "bootstrap": "4.3.1",
+    "jquery": "3.4.1",
+    "jquery.easing": "^1.4.1"
   },
   "devDependencies": {},
   "scripts": {
