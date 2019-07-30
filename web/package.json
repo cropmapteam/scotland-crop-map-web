@@ -1,0 +1,33 @@
+{
+  "name": "cropmap-web",
+  "version": "0.1.0",
+  "description": "Web UI for Scot CropMap",
+  "main": "index.js",
+  "dependencies": {
+    "ol": "^5.3.3",
+    "ol-layerswitcher": "^3.3.0",
+    "parcel-bundler": "^1.12.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html",
+    "build": "parcel build --public-url . index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cropmapteam/scotland-crop-map-web.git"
+  },
+  "keywords": [
+    "scotland",
+    "cropmap",
+    "web",
+    "ui"
+  ],
+  "author": "William Petit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cropmapteam/scotland-crop-map-web/issues"
+  },
+  "homepage": "https://github.com/cropmapteam/scotland-crop-map-web#readme"
+}
