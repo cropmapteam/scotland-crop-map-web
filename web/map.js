@@ -2,16 +2,20 @@ import 'ol/ol.css';
 import 'ol-layerswitcher/src/ol-layerswitcher.css';
 
 import {Map, View} from 'ol';
-import {ZoomSlider} from 'ol/control.js';
+import {ZoomSlider, ScaleLine} from 'ol/control.js';
 import LayerSwitcher from 'ol-layerswitcher';
 import TileLayer from 'ol/layer/Tile';
-import {defaults as defaultControls, OverviewMap} from 'ol/control.js';
+import {defaults as defaultControls, FullScreen, OverviewMap} from 'ol/control.js';
 import MousePosition from 'ol/control/MousePosition.js';
 import {createStringXY} from 'ol/coordinate.js';
 import OSM from 'ol/source/OSM';
 import TileWMS from 'ol/source/TileWMS.js';
 import Stamen from 'ol/source/Stamen.js';
 import LayerGroup from 'ol/layer/Group';
+
+import Overlay from 'ol/Overlay.js';
+import {toStringHDMS} from 'ol/coordinate.js';
+import {fromLonLat, toLonLat} from 'ol/proj.js';
 
 import proj4 from 'proj4';
 import {register} from 'ol/proj/proj4';
@@ -33,17 +37,21 @@ let rotation = 0;
 
 var mousePositionControl = new MousePosition({
     coordinateFormat: createStringXY(4),
-    // projection: 'EPSG:27700',
+    projection: 'EPSG:27700',
     // comment the following two lines to have the mouse position
     // be placed within the map.
     className: 'custom-mouse-position',
     target: document.getElementById('mouse-position'),
     undefinedHTML: '&nbsp;'
 });
+var fullScreenControl = new FullScreen({
+    source: 'fullscreen'
+});
 
 const map = new Map({
     target: 'map',
-    controls: defaultControls().extend([mousePositionControl]),
+    controls: defaultControls().extend(
+        [mousePositionControl, fullScreenControl]),
     layers: [
         new LayerGroup({
             'title': 'Base maps',
@@ -101,6 +109,7 @@ const map = new Map({
                             'VERSION': '1.1.1',
                             TRANSPARENT: true
                         },
+                        transition: 0,
                         resolutions: [1763.889,352.778,176.389,88.194, 35.278,26.458,17.639,8.819,3.528,1.764,0.882,0.441],
                         serverType: 'mapserver',
                     }),
@@ -116,12 +125,48 @@ const map = new Map({
     })
 });
 
+
+// Popup showing the position the user clicked
+let popup = new Overlay({
+    element: document.getElementById('popup')
+});
+map.addOverlay(popup);
+
+map.on('click', function(evt) {
+    let element = popup.getElement();
+    let coordinate = evt.coordinate;
+    let hdms = toStringHDMS(toLonLat(coordinate));
+
+    $(element).popover('hide');
+    popup.setPosition(coordinate);
+    $(element).popover({
+        container: '#map',
+        title: 'Location',
+        placement: 'auto',
+        animation: true,
+        html: true,
+        content: 'HDMS - <code>' + hdms + '</code><br/>'+
+            'EPSG:27700 - <code>' + document.getElementById('mouse-position').textContent + '</code>'
+    });
+    $(element).popover('show');
+});
+map.on('postrender', function(e) {
+    let element = popup.getElement();
+    $(element).popover('hide');
+    let popover = $('#popup').data('bs.popover');
+    if(!popover) return;
+    let popper = popover._popper;
+    if(!popper) return;
+    popper.scheduleUpdate();
+});
+
 map.addControl(new LayerSwitcher());
 map.addControl(new ZoomSlider());
 // map.addControl(new Navigation());
 // map.addControl(new Scale());
-// map.addControl(new ScaleLine());
+// map.addControl(new Attribution());
+map.addControl(new ScaleLine());
 
-map.on('click', function(evt){
-    document.getElementById('mouse-position-saved').textContent = "Saved coordinate: "+document.getElementById('mouse-position').textContent;
-})
+// map.on('click', function(evt){
+//     document.getElementById('mouse-position-saved').textContent = "Saved coordinate: "+document.getElementById('mouse-position').textContent;
+// })

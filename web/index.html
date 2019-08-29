@@ -11,29 +11,84 @@
   <title>Scotland Crop Map - Welcome Page</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
 
   <!-- Custom styles for this template -->
   <link href="css/scrolling-nav.css" rel="stylesheet">
 
   <!-- OpenLayer CSS -->
-  <!-- <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css"> -->
+  <link rel="stylesheet" href="https://openlayers.org/en/v5.3.0/css/ol.css" type="text/css">
+
+  <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
 
   <style>
-    #map{
-      width: 100%;
-      height: 600px;
+    /*#map{*/
+    /*  width: 100%;*/
+    /*  height: 600px;*/
+    /*}*/
+    #map {
+      width: 80%;
+      height: 100%;
+      float: left;
     }
+
+    .mouse-position{
+      font-size: 10px;
+    }
+
+    .popover{
+      max-width: 300px!important;
+    }
+    .popover-body {
+      min-width: 300px;
+    }
+
+    .fullscreen:-moz-full-screen {
+      height: 100%;
+    }
+    .fullscreen:-webkit-full-screen {
+      height: 100%;
+    }
+    .fullscreen:-ms-fullscreen {
+      height: 100%;
+    }
+    .fullscreen:fullscreen {
+      height: 100%;
+    }
+    .fullscreen {
+      margin-bottom: 10px;
+      width: 100%;
+      height: 400px;
+    }
+
+    .sidepanel {
+      background: #1F6B75;
+      width: 20%;
+      height: 100%;
+      float: left;
+    }
+    .sidepanel-title {
+      width: 100%;
+      font-size: 2em;
+      color: #ffffff;
+      display: block;
+      text-align: center;
+    }
+
   </style>
 </head>
 
 <body id="page-top">
-
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <div class="container">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">Scotland Crop Map</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+              aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -67,7 +122,11 @@
       <div class="row">
         <div class="col-lg-8 mx-auto">
           <h2>About</h2>
-          <p class="lead">This project is a Scottish Government collaboration with EDINA and JNCC to produce a crop map for Scotland by developing machine learning algorithms applied to Sentinel satellite data</p>
+          <p class="lead">
+            This project is a Scottish Government collaboration
+            with EDINA and JNCC to produce a crop map for Scotland
+            by developing machine learning algorithms applied to Sentinel satellite data
+          </p>
         </div>
       </div>
     </div>
@@ -78,12 +137,22 @@
       <div class="row">
           <div class="col-lg-8 mx-auto">
             <h2>Map</h2>
-            <div id="map" class="border"></div>
-            <div class="small text-justify font-weight-light">Contains Ordnance Survey data. (c) Crown copyright and database right 2019. Data provided by Digimap OpenStream, an EDINA, University of Edinburgh Service.</div>
-            <!-- For Test
-            <div id="mouse-position"></div>
-            <div id="mouse-position-saved"></div>
-            -->
+            <div class="row">
+              <div id="mouse-position" class="col-sm mouse-position"></div>
+              <div id="mouse-position-saved" class="text-right col-sm mouse-position"></div>
+            </div>
+            <div id="fullscreen" class="fullscreen">
+              <div id="map" class="border"></div>
+              <div class="sidepanel">
+                <span class="sidepanel-title">Legend</span>
+              </div>
+              <div class="small text-justify font-weight-light">
+                Contains Ordnance Survey data. (c) Crown copyright and database right 2019.
+                Data provided by Digimap OpenStream, an EDINA, University of Edinburgh Service.
+              </div>
+              <div id="popup" class="popover" role="tooltip">
+            </div>
+            </div>
           </div>
         </div>
       </div>
@@ -123,13 +192,17 @@
     <!-- /.container -->
   </footer>
 </body>
-  
-<!-- <script src="vendor/jquery/jquery.min.js"></script> -->
-<!-- Plugin JavaScript -->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<!-- Bootstrap core JavaScript -->
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Javascript required for Bootstrap v4.0 -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 
 <!-- Custom JavaScript for this theme -->
 <script src="js/scrolling-nav.js"></script>
